@@ -7,6 +7,7 @@ import RecentTransactions from "./views/RecentTransactions";
 import Headers from "./views/Headers";
 import NewTransferDialog from "./views/NewTransferDialog";
 import Greetings from "./views/Greetings";
+import { formatMoney } from "./lib/format";
 
 export default function App() {
   const [transferOpen, setTransferOpen] = useState(false);
@@ -45,9 +46,42 @@ export default function App() {
   return (
     <div className="container">
       <Headers />
-      <Greetings />
-      <TotalAndAccounts onNewTransfer={() => setTransferOpen(true)} />
-      <RecentTransactions />
+      <main className="main-layout">
+        <div className="main-content">
+          <Greetings />
+          <TotalAndAccounts onNewTransfer={() => setTransferOpen(true)} />
+          <RecentTransactions />
+        </div>
+        <aside className="main-rail">
+          <section className="daily-limit">
+            <div className="daily-limit__header">
+              <span className="daily-limit__label">DAILY LIMIT</span>
+            </div>
+
+            <div className="daily-limit__amount">{formatMoney(5000)}</div>
+
+            <span className="daily-limit__subtitle">Remaining today</span>
+
+            <div
+              className="daily-limit__progress"
+              role="progressbar"
+              aria-label="Remaining daily transfer limit"
+              aria-valuemin={0}
+              aria-valuemax={5000}
+              aria-valuenow={5000}
+            >
+              <div
+                className="daily-limit__progress-fill"
+                style={{ width: `${100}%` }}
+              />
+            </div>
+
+            <div className="daily-limit__footer">
+              <span>Resets daily. Applies to all transfers.</span>
+            </div>
+          </section>
+        </aside>
+      </main>
 
       <div className="mobile-bottom-cta">
         <button

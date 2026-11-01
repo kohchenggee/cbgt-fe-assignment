@@ -5,7 +5,7 @@ import { useCallback, useState } from "react";
 type Theme = "light" | "dark";
 type Segment = "retail" | "premium";
 
-const segmentLabels: Record<Segment, string> = {
+export const segmentLabels: Record<Segment, string> = {
   retail: "Retail",
   premium: "Premium",
 };

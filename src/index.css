@@ -1,4 +1,4 @@
-@import '../brief/design-tokens.css';
+@import "../brief/design-tokens.css";
 
 * {
   box-sizing: border-box;
@@ -85,7 +85,6 @@ code {
   box-sizing: border-box;
 }
 
-
 .app-header {
   display: flex;
   flex-direction: column;
@@ -152,7 +151,8 @@ code {
 }
 
 @keyframes skeleton-pulse {
-  0%, 100% {
+  0%,
+  100% {
     opacity: 1;
   }
 
@@ -212,11 +212,12 @@ code {
   align-items: center;
   gap: var(--space-4);
 }
-
+@media (min-width: 1280px) {
 .segment-control {
   display: inline-flex;
   align-items: center;
   gap: var(--space-2);
+}
 }
 
 .segment-control__label {
@@ -234,7 +235,6 @@ code {
   }
 }
 
-
 /* Radix Switch */
 .switch-root {
   all: unset;
@@ -249,8 +249,9 @@ code {
   display: inline-flex;
   align-items: center;
   padding: 2px;
-  transition: background-color var(--duration-fast) var(--ease-out),
-              border-color var(--duration-fast) var(--ease-out);
+  transition:
+    background-color var(--duration-fast) var(--ease-out),
+    border-color var(--duration-fast) var(--ease-out);
 }
 
 .switch-root[data-state="checked"] {
@@ -270,8 +271,9 @@ code {
   background-color: var(--surface);
   border-radius: var(--radius-full);
   box-shadow: var(--shadow-sm);
-  transition: transform var(--duration-fast) var(--ease-out),
-              background-color var(--duration-fast) var(--ease-out);
+  transition:
+    transform var(--duration-fast) var(--ease-out),
+    background-color var(--duration-fast) var(--ease-out);
   transform: translateX(0px);
   will-change: transform;
 }
@@ -570,7 +572,6 @@ code {
   flex-shrink: 0;
 }
 
-
 .transaction-row__amount {
   font-size: var(--text-base);
   font-weight: var(--weight-semibold);
@@ -584,6 +585,7 @@ code {
   color: var(--text);
 }
 
+@media (min-width: 1280px) {
 .chip-pending {
   font-size: var(--text-xs);
   font-weight: var(--weight-medium);
@@ -592,6 +594,10 @@ code {
   padding: 2px var(--space-2);
   border-radius: var(--radius-full);
   letter-spacing: 0.02em;
+}
+}
+.chip-pending{
+  display: none;
 }
 
 .transactions-empty {
@@ -633,7 +639,7 @@ code {
   background: var(--border);
 }
 
-.dashboard-error{
+.dashboard-error {
   padding: var(--space-6);
   background: var(--negative-soft);
   border: 1px solid var(--negative);
@@ -671,7 +677,7 @@ code {
   font-size: var(--font-size-sm);
 }
 
-.greeting-container{
+.greeting-container {
   display: flex;
   align-items: center;
   gap: var(--space-2);
@@ -729,9 +735,11 @@ New transfer button for mobile view
   }
 
   .container {
-    padding-left: var(--gutter-mobile); 
-    padding-right: var(--gutter-mobile); 
-    padding-bottom: calc(var(--tap-target) + var(--space-8) + env(safe-area-inset-bottom, 0px));
+    padding-left: var(--gutter-mobile);
+    padding-right: var(--gutter-mobile);
+    padding-bottom: calc(
+      var(--tap-target) + var(--space-8) + env(safe-area-inset-bottom, 0px)
+    );
     max-width: 100%;
     overflow-x: hidden;
   }
@@ -755,18 +763,16 @@ New transfer button for mobile view
     background: var(--surface);
     border-top: 1px solid var(--border);
     padding: var(--space-3) var(--gutter-mobile);
-    padding-bottom: max(var(--space-3), env(safe-area-inset-bottom, var(--space-3)));
+    padding-bottom: max(
+      var(--space-3),
+      env(safe-area-inset-bottom, var(--space-3))
+    );
     box-shadow: 0 -4px 16px rgba(11, 18, 32, 0.08);
   }
 
   .mobile-bottom-cta .btn-new-transfer {
     width: 100%;
     min-height: var(--tap-target); /* >= 44px */
-  }
-
-  /* One column layout */
-  .accounts-grid {
-    grid-template-columns: 1fr;
   }
 
   .transactions-header {
@@ -791,14 +797,6 @@ New transfer button for mobile view
     gap: var(--space-1);
   }
 
-  .transaction-row__amount {
-    order: 1;
-  }
-
-  .chip-pending {
-    order: 2;
-  }
-
   .transactions-search__input {
     min-height: var(--tap-target); /* 44px */
   }
@@ -818,7 +816,6 @@ New transfer button for mobile view
     min-width: var(--tap-target); /* 44px */
     min-height: var(--tap-target); /* 44px */
   }
-
 }
 /* Dialog section */
 .dialog-overlay {
@@ -864,9 +861,7 @@ New transfer button for mobile view
     max-height: 90dvh;
     overflow-y: auto;
     border-radius: var(--radius-lg) var(--radius-lg) 0 0;
-    padding-bottom: calc(
-      var(--space-6) + env(safe-area-inset-bottom, 0px)
-    );
+    padding-bottom: calc(var(--space-6) + env(safe-area-inset-bottom, 0px));
   }
 }
 
@@ -953,9 +948,10 @@ New transfer button for mobile view
   background: var(--surface-muted);
   color: var(--text-muted);
   border: 2px solid var(--border);
-  transition: background var(--duration-fast) var(--ease-out),
-              color var(--duration-fast) var(--ease-out),
-              border-color var(--duration-fast) var(--ease-out);
+  transition:
+    background var(--duration-fast) var(--ease-out),
+    color var(--duration-fast) var(--ease-out),
+    border-color var(--duration-fast) var(--ease-out);
 }
 
 .dialog-stepper__item--active .dialog-stepper__indicator {
@@ -1050,7 +1046,6 @@ New transfer button for mobile view
    Payee list
    ========================================================================== */
 
-
 .payee-list {
   list-style: none;
   margin: 0;
@@ -1072,8 +1067,9 @@ New transfer button for mobile view
   width: 100%;
   text-align: left;
   min-height: var(--tap-target);
-  transition: border-color var(--duration-fast) var(--ease-out),
-              background var(--duration-fast) var(--ease-out);
+  transition:
+    border-color var(--duration-fast) var(--ease-out),
+    background var(--duration-fast) var(--ease-out);
 }
 
 .payee-list__item:hover {
@@ -1243,7 +1239,6 @@ New transfer button for mobile view
   appearance: none;
 }
 
-
 .form-input--error,
 .form-select.form-input--error {
   border-color: var(--negative);
@@ -1291,8 +1286,9 @@ New transfer button for mobile view
   font-weight: var(--weight-semibold);
   cursor: pointer;
   min-height: var(--tap-target);
-  transition: background var(--duration-fast) var(--ease-out),
-              opacity var(--duration-fast) var(--ease-out);
+  transition:
+    background var(--duration-fast) var(--ease-out),
+    opacity var(--duration-fast) var(--ease-out);
 }
 
 .btn-primary:hover:not(:disabled) {
@@ -1323,8 +1319,9 @@ New transfer button for mobile view
   font-weight: var(--weight-medium);
   cursor: pointer;
   min-height: var(--tap-target);
-  transition: background var(--duration-fast) var(--ease-out),
-              border-color var(--duration-fast) var(--ease-out);
+  transition:
+    background var(--duration-fast) var(--ease-out),
+    border-color var(--duration-fast) var(--ease-out);
 }
 
 .btn-secondary:hover:not(:disabled) {
@@ -1361,9 +1358,10 @@ New transfer button for mobile view
   font-weight: var(--weight-medium);
   cursor: pointer;
   min-height: var(--tap-target);
-  transition: border-color var(--duration-fast) var(--ease-out),
-              background var(--duration-fast) var(--ease-out),
-              color var(--duration-fast) var(--ease-out);
+  transition:
+    border-color var(--duration-fast) var(--ease-out),
+    background var(--duration-fast) var(--ease-out),
+    color var(--duration-fast) var(--ease-out);
 }
 
 .quick-amount-chip:hover {
@@ -1420,4 +1418,114 @@ New transfer button for mobile view
   color: var(--text);
   text-align: right;
   margin: 0;
+}
+
+@media (min-width: 1280px) {
+  .app-header__nav {
+    display: flex;
+    align-items: center;
+    gap: var(--space-6);
+    border-bottom: 1px solid var(--border);
+  }
+}
+
+.app-header__nav {
+  display: none;
+}
+
+.app-header__nav a {
+  padding: var(--space-3) 0;
+  color: var(--text-muted);
+  text-decoration: none;
+}
+
+.app-header__nav a[aria-current="page"] {
+  color: var(--brand);
+  border-bottom: 2px solid var(--brand);
+  font-weight: var(--weight-semibold);
+}
+
+.nav-link--disabled {
+  color: var(--text-subtle);
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+.header-right {
+  display: flex;
+  gap: var(--space-2);
+  align-items: center;
+}
+
+.main-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--space-6);
+}
+
+.main-rail {
+  display: none;
+}
+
+@media (min-width: 1280px) {
+  .main-layout {
+    grid-template-columns: minmax(0, 1fr) 300px;
+  }
+
+  .main-rail {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+  }
+}
+
+.daily-limit__progress {
+  height: 8px;
+  overflow: hidden;
+  border-radius: var(--radius-full);
+  background: var(--surface-muted);
+}
+
+.daily-limit__progress-fill {
+  height: 100%;
+  border-radius: inherit;
+  background: var(--positive);
+  transition: width 200ms ease;
+}
+
+.daily-limit__footer {
+  padding-top: var(--space-2);
+  border-top: 1px solid var(--border);
+  font-size: var(--text-xs);
+  color: var(--text-subtle);
+}
+
+.daily-limit {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  padding: var(--space-4);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  margin-top: 100px;
+}
+
+.daily-limit__label {
+  font-size: var(--text-xs);
+  font-weight: var(--weight-semibold);
+  letter-spacing: 0.06em;
+  color: var(--text-muted);
+}
+
+.daily-limit__amount {
+  font-size: var(--text-2xl);
+  font-weight: var(--weight-bold);
+  color: var(--text);
+  font-variant-numeric: tabular-nums;
+}
+
+.daily-limit__subtitle {
+  font-size: var(--text-sm);
+  color: var(--text-muted);
 }
