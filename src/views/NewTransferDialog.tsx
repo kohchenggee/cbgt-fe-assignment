@@ -64,6 +64,7 @@ export default function NewTransferDialog({
     onSuccess: (data) => {
       queryClient.invalidateQueries({ queryKey: ["account"] });
       queryClient.invalidateQueries({ queryKey: ["transactions"] });
+      queryClient.invalidateQueries({ queryKey: ["customer"] });
       setSuccessData(data.transfer);
       setStep("success");
       setSendError(null);

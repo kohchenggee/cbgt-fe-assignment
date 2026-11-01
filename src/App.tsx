@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { apiFetch } from "./api/client";
 import type { Health, CustomerResponse } from "./api/types";
@@ -25,10 +25,34 @@ export default function App() {
       : "connected";
   void status; // used for debug / health indicator
 
-  const { isError, error, refetch } = useQuery({
+  const { data, isError, error, refetch } = useQuery({
     queryKey: ["customer"],
     queryFn: () => apiFetch<CustomerResponse>("/api/customer"),
   });
+
+  const remainingLimit = useMemo(() => {
+    if (data?.customer) {
+      return Math.max(
+        0,
+        (data?.customer?.dailyTransferLimit ?? 0) -
+          (data?.customer?.transferredToday ?? 0),
+      );
+    }
+    return 0;
+  }, [data?.customer?.dailyTransferLimit, data?.customer?.transferredToday]);
+
+  const percentage = useMemo(() => {
+    if (remainingLimit && data?.customer?.dailyTransferLimit) {
+      return Math.min(
+        100,
+        Math.max(
+          0,
+          (remainingLimit / data?.customer?.dailyTransferLimit) * 100,
+        ),
+      );
+    }
+    return 0;
+  }, [remainingLimit, data?.customer?.dailyTransferLimit]);
 
   if (isError || error)
     return (
@@ -42,6 +66,8 @@ export default function App() {
         </div>
       </div>
     );
+
+  const customer = data?.customer;
 
   return (
     <div className="container">
@@ -58,7 +84,9 @@ export default function App() {
               <span className="daily-limit__label">DAILY LIMIT</span>
             </div>
 
-            <div className="daily-limit__amount">{formatMoney(5000)}</div>
+            <div className="daily-limit__amount">
+              {formatMoney(customer?.dailyTransferLimit || 0)}
+            </div>
 
             <span className="daily-limit__subtitle">Remaining today</span>
 
@@ -67,12 +95,12 @@ export default function App() {
               role="progressbar"
               aria-label="Remaining daily transfer limit"
               aria-valuemin={0}
-              aria-valuemax={5000}
-              aria-valuenow={5000}
+              aria-valuemax={customer?.dailyTransferLimit}
+              aria-valuenow={remainingLimit}
             >
               <div
                 className="daily-limit__progress-fill"
-                style={{ width: `${100}%` }}
+                style={{ width: `${percentage}%` }}
               />
             </div>
 
