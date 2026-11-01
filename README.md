@@ -1,135 +1,136 @@
-# Meridian Banking — Frontend Take-Home
 
-Build a small banking app for one customer: a **dashboard** that shows her
-accounts and recent transactions, and a **three-step transfer** that sends money
-to a payee.
-
-You get a working React + TypeScript starter with a mock API already wired in,
-plus design tokens and a wireframe. You don't need a backend, and you don't need
-to invent data.
-
-|  |  |
-| --- | --- |
-| **Time** | Submit within **2 weeks** of receiving this. Most people need about **8–12 hours**; you don't need to use the full two weeks. |
-| **AI tools** | Allowed. In the follow-up call you explain your code and change it live, **without AI help**. See [How we assess](#4-how-we-assess). |
-| **Stack** | React 19, TypeScript, Vite, TanStack Query, React Hook Form, Zod, MSW, Vitest (all installed). Node 22. |
-
----
-
-## 1. Get started
-
-1. Open **https://github.com/Harmonice-Mundi/2026-fe-assignment/generate**
-   (or press **Use this template** → **Create a new repository**). Choose your
-   own account as the owner, keep it **Public**, and click **Create
-   repository**.
-2. Clone your copy and run:
-
-   ```bash
-   npm install
-   npm run dev        # http://localhost:5173
-   ```
-
-   You should see **"Mock API: connected"**. That screen is a placeholder;
-   replace it with your app.
-
-3. Read the docs below in order before writing code.
-
-## 2. What to read
-
-| Read | What it gives you |
-| --- | --- |
-| 1. [`brief/candidate-brief.md`](brief/candidate-brief.md) | **The spec.** What to build, what's required vs optional, exact copy. |
-| 2. [`wireframes/wireframe.md`](wireframes/wireframe.md) | Layout of each screen (low fidelity — no visual design). |
-| 3. [`brief/api-contract.md`](brief/api-contract.md) | Endpoints, types, errors, and test hooks. |
-
-Look these up when you need them:
-
-- [`DEPLOYMENT.md`](DEPLOYMENT.md): hosting settings and fixes for common mock-API
-  problems.
-- [`brief/design-tokens.css`](brief/design-tokens.css): colours, spacing and type
-  (already imported).
-- [`mock-api/README.md`](mock-api/README.md): the optional Node mock server.
-
-## 3. What's already in the starter
-
-| Path | What it is |
-| --- | --- |
-| `src/api/client.ts`, `src/api/types.ts` | Typed `apiFetch` helper and the API types. Build your queries on these. |
-| `src/lib/format.ts` | `formatMoney` and `formatShortDate`. Use them so amounts and dates match the brief. |
-| `src/mocks/`, `mock-api/` | The mock API. It runs in the browser, in tests, and in your deployed site. **Don't edit it.** |
-| `src/test/setup.ts` | Test setup. The mock data resets before every test. |
-| `src/App.tsx` | Placeholder screen. Replace it. |
-
-How you structure folders, components and features is **up to you** — that's
-part of what we look at.
-
-```bash
-npm run dev        # start the app
-npm test           # run tests once (npm run test:watch to keep watching)
-npm run lint       # ESLint
-npm run typecheck  # TypeScript
-npm run check      # lint + typecheck + tests
-npm run build      # production build into dist/
-```
-
-Run `npm run check` and `npm run build` before you submit; both should pass.
-
-## 4. How we assess
-
-1. **We open your deployed app** and run through the flows in the brief.
-2. **We read your code and README.** We look at how you structured the
-   project, the decisions you made, and whether the tests check real behaviour.
-3. **We have a follow-up call with you (about 45 minutes).** You share your
-   screen and:
-   - walk us through the structure and two or three decisions you made;
-   - trace one flow through the code (for example, what happens from
-     `Confirm transfer` until the balance updates);
-   - make **one or two small changes live**, without AI assistance. They are
-     the size of "add a validation rule" or "show one more field". Your
-     normal editor, docs and search are fine.
-
-**On AI:** use whatever tools you like while building. We are not checking
-whether code was AI-generated. We are checking that **you understand all of
-it** and made deliberate choices. If you can't explain a piece of code, it
-counts against you, whoever wrote it. Your README must say what you used AI
-for (see below).
-
-A smaller app you understand well scores better than a bigger one you can't
-explain.
-
-## 5. Submit
-
-1. **Deploy** to Netlify, Vercel or Cloudflare Pages (settings in
-   [`DEPLOYMENT.md`](DEPLOYMENT.md)). The deployed site must work with no local
-   server.
-2. **Replace this README** with your own, using the outline below.
-3. **Reply to the invitation email** with your repo URL and your deployed URL.
-
-### Your README
-
-```md
-# Meridian Banking — <Your Name>
+# Meridian Banking — Koh Cheng Gee
 
 - Deployed: <url>
 - Run locally: `npm install && npm run dev`
 
 ## Project structure
-Folders and what each is responsible for.
+The project is organised into three main areas to keep reusable UI components separate from dashboard sections and dialog workflows.
+
+| Folder | Responsibility |
+|---|---|
+| `components/` | Contains reusable UI components shared across different parts of the application, such as buttons, loading indicators, and other common interface elements. |
+| `views/` | Contains the individual UI sections that make up the dashboard, such as the header, greetings, account summary, recent transactions and dialog component. |
+
+This structure keeps shared components reusable, dashboard sections easy to maintain, and the transfer workflow organised independently.
 
 ## Decisions and trade-offs
-Server state vs UI state, forms and validation, theming, anything you
-chose deliberately, and what you'd change.
+### 1. State Management
+
+**Decision:** Used React Query for server state and React `useState` for local UI state.
+
+- **React Query:** Handles API data fetching, caching, loading states, and error handling.
+- **useState:** Manages local UI interactions, such as opening and closing dialogs and controlling the transfer flow.
+
+**Trade-off:** This keeps state management simple without introducing an additional global state library. If the application grows and more components need to share complex client-side state, I would consider introducing a dedicated state management solution.
+
+### 2. Forms and Validation
+
+**Decision:** Used React Hook Form with Zod for form handling and validation.
+
+- React Hook Form manages form values and submission.
+- Zod provides validation schemas for recipient details and transfer amounts.
+- Added balance validation to prevent users from entering a transfer amount that exceeds the selected account's available balance.
+
+**Trade-off:** Client-side validation provides immediate feedback and a better user experience. However, important business rules should also be enforced by the backend.
+
+### 3. UI Components and Styling
+
+**Decision:** Did not introduce a dedicated theme library and kept styling within the project's CSS.
+
+- Used CSS variables and custom styles to control the appearance of UI components.
+- Used Radix UI primitives for accessible interactions without introducing predefined component styling.
+- Avoided adding another dependency for theme management, as the current application requirements did not justify the additional complexity.
+
+**Trade-off:** This keeps the project lightweight and provides direct control over the visual design. However, as the application grows to support more themes or complex user preferences, I would consider introducing a dedicated theming solution to centralise theme configuration and reduce manual maintenance.
+
+### 4. What I Would Improve
+
+If I were to extend the project further, I would consider:
+
+- Introducing shared client-side state management if UI state becomes more complex or needs to be shared across many components.
+- Expanding automated tests to cover more edge cases, including API failures and form validation scenarios.
+- Improving the separation of business logic from UI components as the application grows.
 
 ## Loading, empty and error states
 How you handled them, and how to see each one in the deployed app.
+# Loading states
+
+Used skeleton placeholders while dashboard data is being fetched, avoiding sudden layout shifts and providing visual feedback.
+
+React Query manages the asynchronous API requests and loading states.
+
+Skeleton components use the application's semantic design tokens to remain consistent across all four theme combinations.
+
+How to see it: Open the deployed application and observe the initial dashboard load. The skeleton placeholders appear while the API requests are pending. Depending on network speed and caching, this state may be brief.
+
+# Empty states
+
+Empty states are handled separately from loading and error states, so users are not shown an error when a successful API response simply contains no records.
+
+Where applicable, the UI provides contextual messaging to explain that there is currently no data to display.
+
+How to see it: Use an account or transaction dataset with an empty collection, if an empty-state dataset or API response is available in the deployed environment.
+
+# Error states
+
+Dashboard API failures display a clear error message instead of leaving the page blank.
+
+A retry action allows users to trigger the request again using React Query's refetch().
+
+Transfer form validation errors are displayed next to the relevant fields, including checks for available account balance and daily transfer limits.
+
+How to see it: The dashboard error state can be tested by making the customer API request fail. Select Retry to trigger another request. If the deployed environment does not expose a way to simulate API failures, this state can be verified through the automated tests.
 
 ## Tests
 What they cover and why you picked those cases.
+i) The new transfer creation flow test
+ii) Dashboard loading failure test
+iii) Balance limit validation test
+
 
 ## AI use
-Which tools, and what for. Name two or three places where you changed,
-rejected or fixed what the AI produced, and why.
+## AI Tools and How I Used Them
 
-## Not done / known issues
-What you left out or would do with more time.
-```
+### Tools Used
+
+- **ChatGPT:** Used for technical discussions, exploring implementation approaches, debugging issues, reviewing code, and understanding trade-offs involving React, TypeScript, React Query, Radix UI, and CSS.
+- **Google Antigravity:** Used as an AI-assisted development environment to help implement features, generate and refine code, and make changes across the project.
+
+### Examples of AI Suggestions I Reviewed or Changed
+
+#### i) Form Validation
+
+The initial AI-generated implementation performed validation mainly at the point of form submission. I changed this approach to validate inputs at each stage of the transfer flow instead.
+
+**Why:** This provides users with earlier feedback, helps them correct invalid information before proceeding, and creates a more user-friendly experience.
+
+#### ii) Responsive UI Refinement
+
+Some AI-generated UI implementations did not fully accommodate both desktop and mobile layouts. I refined the styling and layout to address issues such as:
+
+- Mobile action buttons overlapping the transfer modal.
+- Account card details taking up too much vertical space on smaller screens.
+- Adjusting spacing and component alignment to improve the mobile experience.
+
+**Why:** AI-generated layouts provided a useful starting point, but required manual refinement to ensure the interface remained usable across different screen sizes.
+
+#### iii) UI Library Selection
+
+I explored using both shadcn/ui and Radix UI. After reviewing the options, I decided to use Radix UI primitives with a custom CSS design system.
+
+**Why:** I noticed that my `design-token.css` already contained many of the styling foundations commonly used by shadcn/ui. Rather than introducing another layer of predefined component styling, I chose Radix UI for its accessible interaction primitives and retained control over the visual design through custom CSS.
+
+## Not Done / Known Limitations
+
+The following improvements were identified but not implemented within the assignment timeframe:
+
+### 1. Expand Test Coverage
+Add more automated tests to cover additional user journeys, edge cases, form validation scenarios, and API failure handling.
+
+### 2. Transfer Dialog Discard Confirmation
+Implement a confirmation prompt when users attempt to close the transfer dialog before completing the process. This helps prevent accidental loss of entered information.
+
+### 3. Stepper Navigation
+Allow users to navigate back to previously completed steps by clicking on the corresponding step in the transfer stepper, rather than relying only on the Back button.
+

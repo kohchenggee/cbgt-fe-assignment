@@ -1,39 +1,66 @@
-import { useQuery } from '@tanstack/react-query'
-import { apiFetch } from './api/client'
-import type { Health } from './api/types'
+import { useState } from "react";
+import { useQuery } from "@tanstack/react-query";
+import { apiFetch } from "./api/client";
+import type { Health, CustomerResponse } from "./api/types";
+import TotalAndAccounts from "./views/TotalAndAccounts";
+import RecentTransactions from "./views/RecentTransactions";
+import Headers from "./views/Headers";
+import NewTransferDialog from "./views/NewTransferDialog";
+import Greetings from "./views/Greetings";
 
 export default function App() {
+  const [transferOpen, setTransferOpen] = useState(false);
+
   const health = useQuery({
-    queryKey: ['health'],
-    queryFn: () => apiFetch<Health>('/api/health'),
+    queryKey: ["health"],
+    queryFn: () => apiFetch<Health>("/api/health"),
     retry: false,
-  })
+  });
 
   const status = health.isPending
-    ? 'checking…'
+    ? "checking…"
     : health.isError
-      ? 'not connected'
-      : 'connected'
+      ? "not connected"
+      : "connected";
+  void status; // used for debug / health indicator
+
+  const { isError, error, refetch } = useQuery({
+    queryKey: ["customer"],
+    queryFn: () => apiFetch<CustomerResponse>("/api/customer"),
+  });
+
+  if (isError || error)
+    return (
+      <div className="container">
+        <Headers />
+        <div className="transactions-error" role="alert">
+          We couldn't load your dashboard.
+          <button type="button" className="btn-retry" onClick={() => refetch()}>
+            Retry
+          </button>
+        </div>
+      </div>
+    );
 
   return (
-    <div className="starter">
-      <header className="starter-header">
-        <strong>Meridian</strong>
-        <span>Take-home starter</span>
-      </header>
+    <div className="container">
+      <Headers />
+      <Greetings />
+      <TotalAndAccounts onNewTransfer={() => setTransferOpen(true)} />
+      <RecentTransactions />
 
-      <main className="starter-main">
-        <h1>Build the dashboard and transfer flow</h1>
-        <p>
-          Start with <code>README.md</code>, then read{' '}
-          <code>brief/candidate-brief.md</code>. Replace this screen with your
-          app.
-        </p>
+      <div className="mobile-bottom-cta">
+        <button
+          type="button"
+          className="btn-new-transfer"
+          onClick={() => setTransferOpen(true)}
+          aria-label="New transfer"
+        >
+          + New transfer
+        </button>
+      </div>
 
-        <p className="status" role="status">
-          Mock API: {status}
-        </p>
-      </main>
+      <NewTransferDialog open={transferOpen} onOpenChange={setTransferOpen} />
     </div>
-  )
+  );
 }
