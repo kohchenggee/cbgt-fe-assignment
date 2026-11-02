@@ -1,7 +1,7 @@
 
 # Meridian Banking — Koh Cheng Gee
 
-- Deployed: [<url>](https://cbgt-fe-assignment-eb957kqsl-kohchenggees-projects.vercel.app)
+- Deployed: [<url>](https://cbgt-fe-assignment.vercel.app/)
 - Run locally: `npm install && npm run dev`
 
 ## Project structure
