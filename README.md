@@ -1,7 +1,7 @@
 
 # Meridian Banking — Koh Cheng Gee
 
-- Deployed: <url>
+- Deployed: [<url>](https://cbgt-fe-assignment-eb957kqsl-kohchenggees-projects.vercel.app)
 - Run locally: `npm install && npm run dev`
 
 ## Project structure
@@ -83,10 +83,41 @@ Transfer form validation errors are displayed next to the relevant fields, inclu
 How to see it: The dashboard error state can be tested by making the customer API request fail. Select Retry to trigger another request. If the deployed environment does not expose a way to simulate API failures, this state can be verified through the automated tests.
 
 ## Tests
-What they cover and why you picked those cases.
-i) The new transfer creation flow test
-ii) Dashboard loading failure test
-iii) Balance limit validation test
+### i) New Transfer Creation Flow Test
+
+**What it covers:**
+- Verifies that clicking the "New transfer" button opens the transfer creation dialog.
+- Checks that users can proceed through the transfer steps, enter recipient and transfer details, and complete the flow.
+- Ensures the expected UI is displayed at each stage.
+
+**Why I picked this case:**
+- Transfer creation is one of the dashboard's key user journeys.
+- It involves multiple steps and user interactions, so testing the complete flow helps catch issues that individual component tests may miss.
+- Provides confidence that the main transfer functionality works as expected.
+
+### ii) Dashboard Loading Failure Test
+
+**What it covers:**
+- Simulates a failure when retrieving dashboard data.
+- Verifies that an appropriate error message is displayed instead of leaving the user with a broken or blank dashboard.
+- Checks that the Retry action allows the user to attempt loading the dashboard data again.
+
+**Why I picked this case:**
+- Dashboard data is essential to the user experience, but API failures can occur.
+- Ensures the application handles failures gracefully and provides users with a clear recovery action.
+
+### iii) New Transfer Validation Test
+
+**What it covers:**
+- Verifies that the transfer amount cannot exceed the available balance of the selected account.
+- Checks that the appropriate validation message is displayed when the entered amount exceeds the account balance.
+- Ensures that a valid amount within the available balance can pass validation.
+- Verifies if user plan to transfer to new payee without fulfilling requirement
+
+**Why I picked this case:**
+- Preventing transfers beyond the available balance is an important business rule.
+- Testing both invalid and valid amounts ensures users receive immediate and meaningful feedback before submitting a transfer.
+- Make sure the new payee has required information for fulfiling the transfer
 
 
 ## AI use

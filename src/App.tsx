@@ -39,7 +39,7 @@ export default function App() {
       );
     }
     return 0;
-  }, [data?.customer?.dailyTransferLimit, data?.customer?.transferredToday]);
+  }, [data?.customer]);
 
   const percentage = useMemo(() => {
     if (remainingLimit && data?.customer?.dailyTransferLimit) {

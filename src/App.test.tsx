@@ -79,6 +79,53 @@ describe("Dashboard loaded", () => {
     );
   });
 
+  it("shows validation error", async () => {
+    renderApp();
+
+    await waitFor(
+      () =>
+        expect(screen.getByRole("heading", { level: 1 })).toHaveTextContent(
+          "Good evening, Ava",
+        ),
+      { timeout: 3000 },
+    );
+    const transferButtons = screen.getAllByRole("button", {
+      name: "New transfer",
+    });
+
+    fireEvent.click(transferButtons[0]);
+
+    await waitFor(() => {
+      expect(screen.getByRole("dialog")).toBeInTheDocument();
+      expect(screen.getByText("Who are you sending to?")).toBeInTheDocument();
+    });
+    const dialog = screen.getByRole("dialog");
+
+    fireEvent.click(
+      within(dialog).getByRole("button", { name: "+ Send to someone new" }),
+    );
+
+    expect(
+      within(dialog).getByRole("button", {
+        name: "Continue",
+      }),
+    ).toBeEnabled();
+
+    const continueButton = within(dialog).getByRole("button", {
+      name: "Continue",
+    });
+    fireEvent.click(continueButton);
+    await waitFor(() => {
+      expect(
+        within(dialog).getByText("Enter a recipient name (2–50 characters)."),
+      ).toBeInTheDocument();
+      expect(
+        within(dialog).getByText("Enter a valid 8-digit account number."),
+      ).toBeInTheDocument();
+      expect(within(dialog).getByText("Choose a bank.")).toBeInTheDocument();
+    });
+  });
+
   it("shows user not allowed to transfer exceeding balance limit", async () => {
     renderApp();
 
