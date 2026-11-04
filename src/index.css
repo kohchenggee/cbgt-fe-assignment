@@ -426,6 +426,7 @@ code {
   font-weight: var(--weight-semibold);
   color: var(--text);
   margin: 0;
+  flex: 1;
 }
 
 .transactions-search {
@@ -433,6 +434,7 @@ code {
   display: flex;
   align-items: center;
   min-width: 260px;
+  flex: 1;
 }
 
 .transactions-search__icon {
@@ -779,11 +781,6 @@ New transfer button for mobile view
     flex-direction: column;
     align-items: stretch;
     gap: var(--space-3);
-  }
-
-  .transactions-search {
-    width: 100%;
-    min-width: 0;
   }
 
   /* Stack amount and pending vertically on small screens: amount on top, pending at bottom */
